@@ -71,10 +71,10 @@ public class TopologyConfiguration {
         KTable<String, Long> betsPerBettorTable
                 = rawBets.map((k, v) -> KeyValue.pair(v.getBettor(), v.getAmount()))
                 .groupByKey(Grouped.with(Serdes.String(), new JsonSerde<>(Long.class)))
-                .reduce(((currentSum, v) -> {
+                .reduce((currentSum, v) -> {
                     Long sum = currentSum + v;
                     return sum;
-                }));
+                });
 
         //----------------------------------------------------------------
         //---------------------2-Bets per Team---------------------
@@ -87,10 +87,10 @@ public class TopologyConfiguration {
                             : KeyValue.pair(commands[1], v.getAmount());
                 })
                 .groupByKey(Grouped.with(Serdes.String(), new JsonSerde<>(Long.class)))
-                .reduce(((currentSum, v) -> {
+                .reduce((currentSum, v) -> {
                     Long sum = currentSum + v;
                     return sum;
-                }));
+                });
 
         //----------------------------------------------------------------
         //------------------------3-Possible Frauds-----------------------
